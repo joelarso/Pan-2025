@@ -1,0 +1,3 @@
+sci-learn
+sci-py
+pandas
