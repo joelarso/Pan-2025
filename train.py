@@ -70,25 +70,24 @@ def scores(labels, predictions):
 
 if __name__ == "__main__":
     if len(sys.argv)!= 3:
-        print("Usage: python script.py <input_file> <output_directory")
+        print("Usage: python script.py <input_directory> <output_directory")
         sys.exit(1)
     
-    train = sys.argv[1]
+    inputdir = sys.argv[1]
     outputdir = sys.argv[2]
     try:
-        train = pd.read_json(train, lines=True)
-    except:
-        print('Problem with input_file!')
-    try:
-        for file in os.listdir(outputdir):
-            file_path = os.path.join(outputdir, file)
-            if os.path.isfile(file_path) and file_path.endswith('.jsonl'):
+        for file in os.listdir(inputdir):
+            if file.startswith('train') and file.endswith('.jsonl'):
+                file_path = os.path.join(inputdir, file)
+                train = pd.read_json(file_path, lines=True)
+            if file.startswith('val') and file.endswith('.jsonl'):
+                file_path = os.path.join(inputdir, file)
                 val = pd.read_json(file_path, lines=True)
-                val = train_svm_combined(train, val, 1, 2, 40, 15)
-            if not os.path.exists(outputdir+'/Results.jsonl'):
-                val.to_json(outputdir+'/Results.jsonl', lines=True, orient='records')
-                print('Results have been saved!')
-            else:
-                print('Results file already exists. Please delete first.')
+        val = train_svm_combined(train, val, 1, 2, 40, 15)
+    except:
+       print('Problem with input directory!')
+    try:
+        val.to_json(outputdir+'/Results.jsonl', lines=True, orient='records')
+        print('Results have been saved!')
     except:
         print('Problem with output directory')
