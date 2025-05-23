@@ -4,10 +4,12 @@ Usage:
 
 My system can be called by using 
 
-python3 train.py train_file output_directory
+python3 test.py inputfile output_directory
 
-The test file should be in the output directory. Dependencies are few but run 
+Dependencies are few but run 
 
 pip install -r requirements.txt
 
 Before running system.
+
+train.py contains scoring metric functions as well as training function for my system. 

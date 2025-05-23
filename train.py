@@ -6,13 +6,23 @@ import pandas as pd
 import time
 import sys
 import os
-
+import joblib 
 
 # Load data
 
 
-# Separate token patterns
+# Score function
+def scores(labels, predictions):
+    f1 = round(f1_score(labels, predictions), 4) * 100
+    roc = round(roc_auc_score(labels, predictions), 4) * 100
+    brier_loss = round(brier_score_loss(labels, predictions), 4)
+    brier = (1 - brier_loss) * 100
+    c1 = round(recall_score(labels, predictions, average='macro'), 4) * 100
+    f05 = round(fbeta_score(labels, predictions, beta=0.5), 4) * 100
 
+    score_dict = {'F1': f1, 'Roc_auc': roc, 'Brier': brier, 'C@1': c1, 'F_05': f05}
+    score_dict['Mean'] = sum(score_dict.values()) / len(score_dict)
+    return score_dict
 
 def train_svm_combined(train, val, m, n, word_feature_limit, punct_feature_limit):
     word_token_pattern = r"(?u)\b\w+\b"  # standard word token pattern
@@ -42,7 +52,7 @@ def train_svm_combined(train, val, m, n, word_feature_limit, punct_feature_limit
     end_time = time.time()
     print("Vectorization took {} seconds".format(round(end_time - start_time, 2)))
 
-    # Train SVC
+    # Train SVC 
     start_time = time.time()
     model = SVC()
     model.fit(x_train_combined, y_train)
@@ -53,20 +63,13 @@ def train_svm_combined(train, val, m, n, word_feature_limit, punct_feature_limit
     val = val.drop(columns=["text", "label", "genre", "model"])
     val['label'] = predictions
 
+    modelfile = 'model_and_vectorizers.joblib'
+
+    joblib.dump((model, vectorizer_words, vectorizer_punct), modelfile)
+
+    print(f"Model saved as {modelfile}!")
+
     return val
-
-# Score function
-def scores(labels, predictions):
-    f1 = round(f1_score(labels, predictions), 4) * 100
-    roc = round(roc_auc_score(labels, predictions), 4) * 100
-    brier_loss = round(brier_score_loss(labels, predictions), 4)
-    brier = (1 - brier_loss) * 100
-    c1 = round(recall_score(labels, predictions, average='macro'), 4) * 100
-    f05 = round(fbeta_score(labels, predictions, beta=0.5), 4) * 100
-
-    score_dict = {'F1': f1, 'Roc_auc': roc, 'Brier': brier, 'C@1': c1, 'F_05': f05}
-    score_dict['Mean'] = sum(score_dict.values()) / len(score_dict)
-    return score_dict
 
 if __name__ == "__main__":
     if len(sys.argv)!= 3:
