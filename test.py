@@ -18,7 +18,7 @@ def make_predictions(dataset, modelfile):
 	word_token_pattern = r"(?u)\b\w+\b"  # standard word token pattern
 	punct_token_pattern = r"[\!\?\,\.\'\"\`\:\;]+"  # just punctuation
 	
-	model, vectorizer_words, vectorizer_punct = joblib.load(modelfile)
+	model, vectorizer_words, vectorizer_punct = joblib.load(modelfile) #load trained svm
 
 	x_test_words = vectorizer_words.transform(dataset['text'])
 	x_test_punct = vectorizer_punct.transform(dataset['text'])
@@ -36,23 +36,18 @@ if __name__ == "__main__":
 	    print(len(sys.argv))
 	    sys.exit(1)
 	
-
-	
 	inputfile = sys.argv[1]
 	outputdir = sys.argv[2]
 
-	print(inputfile)
-	print(outputdir)
-
-	# try:
-	print("Checking input file existence:", os.path.exists(inputfile))
-	print("Absolute path to input file:", os.path.abspath(inputfile))
-	dataset = pd.read_json(inputfile, lines=True)
-	print('Dataset has been loaded!')
-	modelfile = 'model_and_vectorizers.joblib'
-	prediction_data = make_predictions(dataset, modelfile)
-	# except:
-	# 	print('Problem with input file!')
+	try:
+		print("Checking input file existence:", os.path.exists(inputfile))
+		print("Absolute path to input file:", os.path.abspath(inputfile))
+		dataset = pd.read_json(inputfile, lines=True)
+		print('Dataset has been loaded!')
+		modelfile = 'model_and_vectorizers.joblib'
+		prediction_data = make_predictions(dataset, modelfile)
+	except:
+		print('Problem with input file!')
 	try: 
 		resultfile = 'predictions.jsonl'
 		outputdir = os.path.abspath(outputdir)
