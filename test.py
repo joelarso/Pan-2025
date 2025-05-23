@@ -25,7 +25,7 @@ def make_predictions(dataset, modelfile):
 	x_test_combined = hstack([x_test_words, x_test_punct])
 
 	predictions = model.predict(x_test_combined)
-	dataset = dataset.drop(columns=["text", "label"])
+	dataset = dataset.drop(columns=["text"])
 	dataset["label"] = predictions
 	
 	return dataset
