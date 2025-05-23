@@ -32,9 +32,9 @@ def make_predictions(dataset, modelfile):
 
 if __name__ == "__main__":
 	if len(sys.argv)!= 3:
-	    print("Usage: python3 test.py <input_directory> <output_directory>")
-	    print(len(sys.argv))
-	    sys.exit(1)
+		print("Usage: python3 test.py <input_directory> <output_directory>")
+		print(len(sys.argv))
+		sys.exit(1)
 	
 	inputfile = sys.argv[1]
 	outputdir = sys.argv[2]

@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN chmod +x run.sh
 
 # Default command to run when container starts
-CMD ["/bin/bash", "./run.sh", "/input/val.jsonl", "/output"]
+ENTRYPOINT ["python3", "test.py", "$inputDataset/dataset.jsonl", "$outputDir"]
