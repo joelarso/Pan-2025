@@ -55,8 +55,11 @@ if __name__ == "__main__":
 		print('Problem with input file!')
 	try: 
 		resultfile = 'predictions.jsonl'
+		outputdir = os.path.abspath(outputdir)
+		os.makedirs(outputdir, exist_ok=True)
 		file_path = os.path.join(outputdir, resultfile)
+		print(f"Attempting to save predictions to: {file_path}")
 		prediction_data.to_json(file_path, lines=True, orient='records')
 		print('Results have been saved!')
-	except:
-		print('Problem with output directory!')
+	except Exception as e:
+		print(f'Problem with output directory {e}!')
