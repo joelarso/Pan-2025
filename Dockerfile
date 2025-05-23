@@ -11,7 +11,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make run.sh executable
-RUN chmod +x run.sh
+#RUN chmod +x run.sh
 
 # Default command to run when container starts
-CMD ["./run.sh", "/input", "/output"]
+CMD ["/bin/bash", "./run.sh", "/input", "/output"]

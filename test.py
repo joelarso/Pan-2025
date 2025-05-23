@@ -32,21 +32,31 @@ def make_predictions(dataset, modelfile):
 
 if __name__ == "__main__":
 	if len(sys.argv)!= 3:
-	    print("Usage: python3 test.py <input_directory> <output_directory")
+	    print("Usage: python3 test.py <input_directory> <output_directory>")
+	    print(len(sys.argv))
 	    sys.exit(1)
+	
+
 	
 	inputfile = sys.argv[1]
 	outputdir = sys.argv[2]
 
+	print(inputfile)
+	print(outputdir)
+
 	try:
+		print("Checking input file existence:", os.path.exists(inputfile))
+		print("Absolute path to input file:", os.path.abspath(inputfile))
 		dataset = pd.read_json(inputfile, lines=True)
+		print('Dataset has been loaded!')
 		modelfile = 'model_and_vectorizers.joblib'
 		prediction_data = make_predictions(dataset, modelfile)
 	except:
 		print('Problem with input file!')
 	try: 
-		resultfile = 'results.jsonl'
-		prediction_data.to_json(os.path.join(outputdir, resultfile), lines=True, orient='records')
+		resultfile = 'predictions.jsonl'
+		file_path = os.path.join(outputdir, resultfile)
+		prediction_data.to_json(file_path, lines=True, orient='records')
 		print('Results have been saved!')
 	except:
 		print('Problem with output directory!')

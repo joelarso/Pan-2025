@@ -1,8 +1,6 @@
-!#!/bin/bash
-# TIRA will call this with:
-# ./run.sh <input-directory> <output-directory>
-#input directory should have both training and test set in it
+#!/bin/bash
 
-pip3 install -r requirements.txt
+input_file=$1
+output_dir=$2
 
-python3 test.py "$1" "$2"
+python3 test.py "$input_file" "$output_dir"
