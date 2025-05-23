@@ -44,15 +44,15 @@ if __name__ == "__main__":
 	print(inputfile)
 	print(outputdir)
 
-	try:
-		print("Checking input file existence:", os.path.exists(inputfile))
-		print("Absolute path to input file:", os.path.abspath(inputfile))
-		dataset = pd.read_json(inputfile, lines=True)
-		print('Dataset has been loaded!')
-		modelfile = 'model_and_vectorizers.joblib'
-		prediction_data = make_predictions(dataset, modelfile)
-	except:
-		print('Problem with input file!')
+	# try:
+	print("Checking input file existence:", os.path.exists(inputfile))
+	print("Absolute path to input file:", os.path.abspath(inputfile))
+	dataset = pd.read_json(inputfile, lines=True)
+	print('Dataset has been loaded!')
+	modelfile = 'model_and_vectorizers.joblib'
+	prediction_data = make_predictions(dataset, modelfile)
+	# except:
+	# 	print('Problem with input file!')
 	try: 
 		resultfile = 'predictions.jsonl'
 		outputdir = os.path.abspath(outputdir)
