@@ -25,16 +25,16 @@ def make_predictions(dataset, modelfile):
 	x_test_combined = hstack([x_test_words, x_test_punct])
 
 	predictions = model.predict(x_test_combined)
-	dataset = dataset.drop(columns=["text", "label"])
+	dataset = dataset.drop(columns=["text"])
 	dataset["label"] = predictions
 	
 	return dataset
 
 if __name__ == "__main__":
 	if len(sys.argv)!= 3:
-	    print("Usage: python3 test.py <input_directory> <output_directory>")
-	    print(len(sys.argv))
-	    sys.exit(1)
+		print("Usage: python3 test.py <input_directory> <output_directory>")
+		print(len(sys.argv))
+		sys.exit(1)
 	
 
 	
