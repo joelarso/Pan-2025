@@ -60,8 +60,11 @@ def train_svm_combined(train, val, m, n, word_feature_limit, punct_feature_limit
 
     # Predict
     predictions = model.predict(x_test_combined)
-    val = val.drop(columns=["text", "label", "genre", "model"])
-    val['label'] = predictions
+    #val = val.drop(columns=["text", "label", "genre", "model"])
+    
+    print(scores(val["label"], predictions))
+
+    val['predictions'] = predictions
 
     modelfile = 'model_and_vectorizers.joblib'
 
